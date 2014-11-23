@@ -18,7 +18,7 @@ object Field {
 
   def box(x: Double, y: Double): Field = new BoxField(Vec2.value(x, y))
 
-  private class BrakingField(val maxV: Double) extends Field {
+  private final class BrakingField(val maxV: Double) extends Field {
     def interact(p: Particle) = {
       if (p.vel.magnitude > maxV) {
         p.applyForce(p.vel.negate * 0.25)
@@ -26,7 +26,7 @@ object Field {
     }
   }
   
-  private class GravitationalField(center: Vec2, k: Double) extends Field {
+  private final class GravitationalField(center: Vec2, k: Double) extends Field {
     def interact(p: Particle) = {
       val displacement = center - p.pos
       val force = k / math.pow(displacement.magnitude, 2)
@@ -34,13 +34,13 @@ object Field {
     }
   }
   
-  private class CurlingFieldUniform(k: Double) extends Field {
+  private final class CurlingFieldUniform(k: Double) extends Field {
     def interact(p: Particle) = {
       p.applyForce(p.vel.rotate(Pi / 2) * k)
     }
   }
   
-  private class BoxField(dim: Vec2) extends Field {
+  private final class BoxField(dim: Vec2) extends Field {
     def interact(p: Particle) = {
       if (p.pos.x < 0) {
         p.pos.x = -p.pos.x

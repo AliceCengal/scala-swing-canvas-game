@@ -1,5 +1,5 @@
 
-class Particle(
+final class Particle(
   val pos: Vec2 = Vec2.zero,
   val vel: Vec2 = Vec2.zero,
   val mass: Double = 1.0) extends ParticlePrototype

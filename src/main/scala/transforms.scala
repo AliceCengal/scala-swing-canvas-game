@@ -22,12 +22,12 @@ object Transform {
       Vec2.value(from.y, from.x)
   }
 
-  private class Rotate(rad: Double) extends Transform {
+  private final class Rotate(rad: Double) extends Transform {
     override def apply(from: Vec2) =
       from.rotate(rad)
   }
   
-  private class Scaling(scale: Double) extends Transform {
+  private final class Scaling(scale: Double) extends Transform {
     override def apply(from: Vec2) = from * scale
   }
 }
