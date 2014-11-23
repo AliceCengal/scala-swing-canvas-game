@@ -6,14 +6,14 @@ final class Particle(
 {
   private val appliedForce = Vec2.zero
   
-  final def update(dt: Double) {
+  def update(dt: Double) {
     vel += (appliedForce / mass * dt)
     pos += (vel * dt)
     appliedForce.x = 0
     appliedForce.y = 0
   }
   
-  final def applyForce(f: Vec2) {
+  def applyForce(f: Vec2) {
     appliedForce += f
   }
 }
@@ -51,9 +51,25 @@ trait Universe {
   def fields: Vector[Field]
   
   def update(dt: Double) {
+    
+    
+    var np = 0
+    while (np < particles.length) {
+      val p = particles(np)
+      var nf = 0
+      while (nf < fields.length) {
+        fields(nf).interact(p)
+        nf += 1
+      }
+      p.update(dt)
+      np += 1
+    }
+    
+    /*
     particles.foreach { p =>
       fields.foreach(_.interact(p))
       p.update(dt)
     }
+    */
   }
 }

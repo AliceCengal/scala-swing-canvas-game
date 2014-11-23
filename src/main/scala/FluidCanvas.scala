@@ -1,10 +1,11 @@
 
 import scala.swing._
-import event._
+//import event._
 import java.awt.{ Color, Graphics2D }
+import java.awt.event.{ActionListener, ActionEvent}
 import scala.util.Random
 
-object FluidCanvas extends SimpleSwingApplication {
+object FluidCanvas extends SimpleSwingApplication with ActionListener {
 
   val prototype = new Particle
 
@@ -38,15 +39,23 @@ object FluidCanvas extends SimpleSwingApplication {
     universe.update(dt * 0.001)
     time = System.currentTimeMillis
     canvas.repaint()
-    Swing.onEDT(update)
   }
   
-  Swing.onEDT(update)
+  def actionPerformed(e: ActionEvent): Unit = {
+    val dt = System.currentTimeMillis - time
+    canvas.time = dt
+    universe.update(dt * 0.001)
+    time = System.currentTimeMillis
+    canvas.repaint()
+  }
+  
+  val timer = new javax.swing.Timer(1000/60, this)
+  timer.start()
 }
 
 class Canvas(val universe: Universe) extends Panel {
 
-  var time = 0.0
+  var time = 0l
 
   override def paintComponent(g: Graphics2D) {
     
@@ -56,7 +65,7 @@ class Canvas(val universe: Universe) extends Panel {
     // Draw background here
     g.setColor(Color.blue)
     
-    //g.drawString(time.toString, 10, 10)
+    g.drawString(time.toString, 10, 10)
     
     // Draw things that change on top of background
     for (p <- universe.particles) {
