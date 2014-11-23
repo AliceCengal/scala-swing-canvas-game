@@ -9,6 +9,8 @@ object Vec2 {
   
 }
 
+// A class that represents an R2 vector. It is mutable, to reduce the GC load
+// in tight loops.
 final class Vec2(var x: Double, var y: Double) {
   
   def +(offset: Double) =

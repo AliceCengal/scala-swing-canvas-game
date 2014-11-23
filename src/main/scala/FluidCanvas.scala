@@ -9,6 +9,7 @@ object FluidCanvas extends SimpleSwingApplication with ActionListener {
 
   val prototype = new Particle
 
+  // The universe of particles to be simulated
   val universe = new Universe {
     val particles =
       (0 until 100).map { _ =>
@@ -17,28 +18,23 @@ object FluidCanvas extends SimpleSwingApplication with ActionListener {
             .randomVelocity(100, 100) }
         .toVector
     
-    val fields = Vector(
-      Field.curlRightUniform(0.25), 
-      Field.box(1600, 1000))
+    val forceFields = Vector(
+      ForceField.curlRightUniform(0.25), 
+      ForceField.box(1600, 1000))
   }
 
+  // The main canvas on which the universe is drawn on
   val canvas = new Canvas(universe)
   
+  // The time of the previous tick, used to track FPS
   var time = System.currentTimeMillis
   
+  // Define the main user interface
   def top = new MainFrame {
     title = "A Sample Scala Swing GUI"
     contents = canvas
     size = new Dimension(1600, 1000)
     centerOnScreen()
-  }
-  
-  def update(): Unit = {
-    val dt = System.currentTimeMillis - time
-    canvas.time = dt
-    universe.update(dt * 0.001)
-    time = System.currentTimeMillis
-    canvas.repaint()
   }
   
   def actionPerformed(e: ActionEvent): Unit = {

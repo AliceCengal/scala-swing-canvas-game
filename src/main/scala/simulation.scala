@@ -1,4 +1,5 @@
 
+// A particle with position and velocity as well intrinsic mass
 final class Particle(
   val pos: Vec2 = Vec2.zero,
   val vel: Vec2 = Vec2.zero,
@@ -18,6 +19,7 @@ final class Particle(
   }
 }
 
+// Adds methods to create copies of the Particle with some properties
 trait ParticlePrototype {
   self: Particle =>
   
@@ -48,10 +50,9 @@ trait Universe {
   
   def particles: Vector[Particle]
   
-  def fields: Vector[Field]
+  def forceFields: Vector[ForceField]
   
   def update(dt: Double) {
-    
     
     var np = 0
     while (np < particles.length) {
