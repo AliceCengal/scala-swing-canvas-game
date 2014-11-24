@@ -58,8 +58,8 @@ trait Universe {
     while (np < particles.length) {
       val p = particles(np)
       var nf = 0
-      while (nf < fields.length) {
-        fields(nf).interact(p)
+      while (nf < forceFields.length) {
+        forceFields(nf).interact(p)
         nf += 1
       }
       p.update(dt)
