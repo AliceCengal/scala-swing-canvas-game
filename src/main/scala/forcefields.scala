@@ -42,20 +42,20 @@ object ForceField {
   
   private final class BoxField(dim: Vec2) extends ForceField {
     def interact(p: Particle) = {
-      if (p.pos.x < 0) {
+      if (p.pos.x < 0.0) {
         p.pos.x = -p.pos.x
         p.vel.x = -p.vel.x
       }
       if (p.pos.x > dim.x) {
-        p.pos.x = dim.x
+        p.pos.x -= 2*(p.pos.x - dim.x)
         p.vel.x = -p.vel.x
       }
-      if (p.pos.y < 0) {
+      if (p.pos.y < 0.0) {
         p.pos.y = -p.pos.y
         p.vel.y = -p.vel.y
       }      
       if (p.pos.y > dim.y) {
-        p.pos.y = dim.y
+        p.pos.y -= 2*(p.pos.y - dim.y)
         p.vel.y = -p.vel.y
       }
     }
