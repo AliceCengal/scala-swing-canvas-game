@@ -83,4 +83,6 @@ final class Vec2(var x: Double, var y: Double) {
       x * cos(rad) - y * sin(rad),
       x * sin(rad) + y * cos(rad))
   
+  def ==(rhs: Vec2): Boolean = this.x == rhs.x && this.y == rhs.y
+  
 }

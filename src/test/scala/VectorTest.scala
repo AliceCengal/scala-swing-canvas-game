@@ -8,6 +8,12 @@ class VectorTest extends FunSuite {
     assert(zeroVector.y == 0.0)
   }
   
+  test("Vector equality test should compare individual components") {
+    val v1 = Vec2.value(3.0, 4.0)
+    val v2 = Vec2.value(3.0, 4.0)
+    assert(v1 == v2)
+  }
+  
   test("Adding a number to a vector should offset the vector by that amount") {
     val v = Vec2.value(0.0, 1.0)
     
