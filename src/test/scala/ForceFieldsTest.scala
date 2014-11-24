@@ -1,6 +1,5 @@
-import org.scalatest.FunSuite
 
-class ForceFieldsTest extends FunSuite {
+class ForceFieldsTest extends org.scalatest.FunSuite {
   
   test("Braking field should reduce particle velocity if it exceeds the max velocity") {
     val brakingField = ForceField.braking(50)

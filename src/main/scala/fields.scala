@@ -182,7 +182,7 @@ object BoundaryCondition {
         var i = self.xDim + 1
         while (i >= 0) {
           self(i, 0) = 0.0
-          self(i, yDim + 2) = 0.0
+          self(i, yDim + 1) = 0.0
           i -= 1
         }
       }
@@ -190,7 +190,7 @@ object BoundaryCondition {
         var i = self.yDim
         while (i > 0) {
           self(0, i) = 0.0
-          self(xDim + 2, i) = 0.0
+          self(xDim + 1, i) = 0.0
           i -= 1
         }
       }
@@ -205,13 +205,16 @@ object BoundaryCondition {
         var i = self.xDim
         while (i > 0) {
           self(i, 0) = self(i, 1)
-          self(i, yDim + 2) = self(i, yDim + 1)
+          self(i, yDim + 1) = self(i, yDim)
+          i -= 1
         }
       }
       { // Left and right edges
-        var i = self.yDim
-        while (i > 0) {
-          
+        var i = self.yDim + 1
+        while (i >= 0) {
+          self(0, i) = self(1, i)
+          self(xDim + 1, i) = self(xDim, i)
+          i -= 1
         }
       }
     }

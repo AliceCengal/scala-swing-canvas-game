@@ -1,6 +1,5 @@
-import org.scalatest.FunSuite
 
-class VectorTest extends FunSuite {
+class VectorTest extends org.scalatest.FunSuite {
   
   test("A zero vector should have zero components") {
     val zeroVector = Vec2.zero
