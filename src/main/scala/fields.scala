@@ -134,7 +134,9 @@ class FieldBasis(val xDim: Int, val yDim: Int) {
   private var basisPrev = Array.fill(xDim + 2, yDim + 2)(0.0)
   private var basis = Array.fill(xDim + 2, yDim + 2)(0.0)
   
-  @inline def apply(x: Int, y: Int): Double = basis(x)(y)
+  def apply(x: Int, y: Int): Double = basis(x)(y)
+  
+  def prev(x: Int, y: Int): Double = basisPrev(x)(y)
   
   def update(x: Int, y: Int, value: Double): Unit = basis(x)(y) = value
   
@@ -144,6 +146,19 @@ class FieldBasis(val xDim: Int, val yDim: Int) {
     basis = tmp
   }
   
+  def zeroBasis(): Unit = {
+    var xx = xDim + 1
+    while (xx >= 0) {
+      
+      var yy = yDim + 1
+      while (yy >= 0) {
+        basis(xx)(yy) = 0.0
+        yy -= 1
+      }
+      
+      xx -= 1
+    }
+  }
 }
 
 trait Diffusion {
@@ -153,6 +168,39 @@ trait Diffusion {
   
   def diffuse(dt: Double): Unit = {
     
+    // Prepare the array buffers for processing
+    swapBuffers()
+    zeroBasis()
+    
+    val a = diffusivity * xDim * yDim * dt
+    
+    // Do the numerical diffusion iteration twenty times. #magicnumber
+    // Gauss-Seidel relaxation
+    var iter = 20
+    while (iter >= 0) {
+      
+      var xx = xDim
+      while (xx > 0) {
+        
+        var yy = yDim
+        while (yy > 0) {
+          
+          // Do diffusion processing
+          self(xx, yy) =
+            (prev(xx, yy) +
+              a * (self(xx + 1, yy) + self(xx - 1, yy) +
+                self(xx, yy + 1) + self(xx, yy - 1))) /
+            //--------------------------------------------------
+              (1 + 4 * a)
+          
+          yy -= 1
+        }
+        xx -= 1
+      }
+      
+      setBoundary()
+      iter -= 1
+    }
   }
   
 }
@@ -161,6 +209,8 @@ trait Advection {
   self: FieldBasis with BoundaryCondition =>
   
   def advection(dt: Double, carrier: VectorField): Unit = {
+    
+    
     
   }
   

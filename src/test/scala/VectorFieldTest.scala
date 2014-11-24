@@ -21,6 +21,7 @@ class VectorFieldTest extends org.scalatest.FunSuite {
     field(5, 7) = 1.0
     field.swapBuffers()
     assert(field(5, 7) == 0.0)
+    assert(field.prev(5, 7) == 1.0)
   }
   
   test("Field with zero boundary condition should have zero values at the borders after a call to setBoundary") {
@@ -71,4 +72,19 @@ class VectorFieldTest extends org.scalatest.FunSuite {
     }
   }
   
+  test("Field with diffusivity should spread value around") {
+    val field = new FieldBasis(10, 15) 
+        with BoundaryCondition.Zero 
+        with Diffusion { def diffusivity = 1.0 }
+    
+    field(5, 6) = 10.0
+    
+    field.diffuse(1.0)
+    
+    assert(field(5, 6) < 10.0)
+    assert(field(7, 6) > 0.0 && field(7, 6) < 10.0)
+    assert(field(3, 6) > 0.0 && field(3, 6) < 10.0)
+    assert(field(5, 8) > 0.0 && field(5, 8) < 10.0)
+    assert(field(5, 4) > 0.0 && field(5, 4) < 10.0)
+  }
 }
